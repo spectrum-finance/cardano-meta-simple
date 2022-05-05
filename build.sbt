@@ -14,6 +14,7 @@ lazy val root = (project in file("."))
       case other if other.contains("io.netty.versions")              => MergeStrategy.first
       case other                                                     => (assemblyMergeStrategy in assembly).value(other)
     },
+    assembly / assemblyJarName := "mock-meta.jar",
     libraryDependencies ++= List(CompilerPlugins.betterMonadicFor, CompilerPlugins.kindProjector) ++ List(
         Libraries.tofuCore,
         Libraries.tofuDerivation,
