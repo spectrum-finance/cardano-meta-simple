@@ -4,7 +4,7 @@ lazy val root = (project in file("."))
   .settings(
     scalaVersion := "2.13.6",
     organization := "fi.spectrumlabs",
-    version := "0.1.0",
+    version := "0.1.1",
     assembly / test := {},
     assembly / assemblyMergeStrategy := {
       case "logback.xml"                                             => MergeStrategy.first
