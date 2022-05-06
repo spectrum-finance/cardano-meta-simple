@@ -4,6 +4,7 @@ import sttp.tapir._
 import sttp.tapir.json.circe.jsonBody
 import fi.spectrumlabs.http.HttpError
 import cats.syntax.option._
+import io.circe.Json
 import io.circe.generic.auto._
 import sttp.model.StatusCode
 import sttp.tapir._
@@ -16,10 +17,10 @@ object MetadataEndpoint {
 
   def endpoints: List[Endpoint[_, _, _, _]] = getMetadata :: Nil
 
-  def getMetadata: Endpoint[String, HttpError, String, Any] =
+  def getMetadata: Endpoint[String, HttpError, Json, Any] =
     endpoint.get
       .in(prefix / path[String].description("metadata key"))
-      .out(jsonBody[String])
+      .out(jsonBody[Json])
       .tag(prefix)
       .name("Metadata by key")
       .errorOut(

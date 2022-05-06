@@ -3,6 +3,8 @@ package fi.spectrumlabs.http
 import cats.effect.{Concurrent, ContextShift, Timer}
 import org.http4s.HttpRoutes
 import sttp.tapir.server.http4s.{Http4sServerInterpreter, Http4sServerOptions}
+import cats.syntax.functor._
+import io.circe.parser._
 
 final class MetadataRoutes[F[_]: Concurrent: ContextShift: Timer](
     implicit
@@ -17,7 +19,7 @@ final class MetadataRoutes[F[_]: Concurrent: ContextShift: Timer](
   def routes = getMetadataR
 
   def getMetadataR = interpreter.toRoutes(getMetadata) { key =>
-    service.getMeta(key).orNotFound(s"Meta key $key is not found.")
+    service.getMeta(key).map(_.flatMap(r => parse(r).toOption)).orNotFound(s"Meta key $key is not found.")
   }
 
 }
